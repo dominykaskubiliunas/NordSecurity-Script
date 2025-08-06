@@ -1,39 +1,26 @@
-import json
+"""Contract Class - responsible for operations with a single contract data"""
+
 from datetime import datetime
+from common.constants import DATE_FORMAT, KEY_RENEWAL_DATE, KEY_PREVIOUS_NOTIFICATION, KEY_DAYS_TO_EXPIRY, KEY_ID
 
 class Contract:
     def __init__(self, data: dict):
         self.data = data
-        self.id = data["id"]
-        self.renewal_date = datetime.strptime(data["renewal_date"], "%Y-%m-%d")
-        self.annual_cost_eur = data["annual_cost_eur"]
 
-    def add_days_to_expiry(self, current_date: datetime) -> int:
-        """
-        Calculates days to expiry for a single contract
-        """
-        self.days_to_expiry = (self.renewal_date - current_date).days
+    def add_days_to_expiry(self, current_date: str) -> int:
+        """Calculates days to expiry for a single contract"""
+        current_date = datetime.strptime(current_date, DATE_FORMAT)
+        renewal_date = datetime.strptime(self.data[KEY_RENEWAL_DATE], DATE_FORMAT)
+        self.data[KEY_DAYS_TO_EXPIRY] = (renewal_date - current_date).days
 
-    def get_days_to_expiry(self, current_date: datetime) -> int:
-        """
-        Returns days to expiry 
-        """
-        return self.days_to_expiry
+    def add_previous_notification(self, notification: str) -> None:
+        """Adds previous notification reason"""
+        self.data[KEY_PREVIOUS_NOTIFICATION] = notification
 
-    def get_id(self) -> int:
-        """
-        Returns ID of the contract
-        """
-        return self.id
+    def get_id_str(self) -> str:
+        """Returns ID of the contract as a string"""
+        return str(self.data[KEY_ID])
 
 
 if __name__ == "__main__":
-    example_contract = {
-        "id": 1,
-        "software_name": "GitHub Enterprise Cloud",
-        "owner": "Ava Chen",
-        "organization": "Nord Security",
-        "annual_cost_eur": 25200.00,
-        "renewal_date": "2025-08-02"
-    }
-    contract = Contract(data = example_contract)
+    pass

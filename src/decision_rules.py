@@ -1,4 +1,8 @@
-from contract import Contract
+"""
+Decision Rules class is responsible for managing and applying rules
+"""
+from src.contract import Contract
+from common.constants import KEY_REASON, KEY_DAYS_TO_EXPIRY, KEY_ANNUAL_COST, KEY_MIN_ANNUAL_COST, NO_MATCH
 
 class DecisionRules:
     def __init__(self, rules: list[dict], priority: list[str]):    
@@ -9,7 +13,7 @@ class DecisionRules:
         """Sort rules according to the priority list."""
         
         def get_priority_index(rule):
-            rule_type = rule.get('type', '')
+            rule_type = rule.get(KEY_REASON, '')
             try:
                 return self.priority.index(rule_type)
             except ValueError:
@@ -17,11 +21,27 @@ class DecisionRules:
         
         return sorted(rules, key=get_priority_index)
     
-    def find_reasons(self, contract: Contract) -> list[str]:
+    def _rule_matches(self, rule: dict, contract: Contract) -> bool:
+        """Check if ALL conditions in a rule are satisfied by the contract."""
+        
+        if contract.data[KEY_DAYS_TO_EXPIRY] > rule.get(KEY_DAYS_TO_EXPIRY, float('inf')):
+            return False
+        
+        if KEY_MIN_ANNUAL_COST in rule:
+            annual_cost = contract.data.get(KEY_ANNUAL_COST, 0)
+            if annual_cost < rule[KEY_MIN_ANNUAL_COST]:
+                return False
+        
+        return True
 
-        reasons = []
-        for rule in rules:
-            if rule
-                
+    def find_top_reason(self, contract: Contract) -> str:
+        """Find the first applicable rule based on priority order."""
+        
+        for rule in self.rules:
+            if self._rule_matches(rule, contract):
+                return rule[KEY_REASON]
+        
+        return NO_MATCH
 
-
+if __name__ == "__main__":
+    pass
