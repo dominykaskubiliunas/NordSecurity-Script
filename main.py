@@ -3,7 +3,7 @@ from utils.utils import empty_file
 from common.constants import NOTIFICATION_LOG_FILE_PATH, CONFIG_FILE_PATH, CONTRACTS_FILE_PATH
 
 def main():
-
+    
     orchestrator = Orchestrator(config_input_path=CONFIG_FILE_PATH, contracts_input_path=CONTRACTS_FILE_PATH)
     print("Internal tool for expiring contracts renewal.")
 
