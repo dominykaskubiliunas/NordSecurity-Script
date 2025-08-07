@@ -2,7 +2,7 @@
 Decision Rules class is responsible for managing and applying rules
 """
 from src.contract import Contract
-from common.constants import KEY_REASON, KEY_DAYS_TO_EXPIRY, KEY_ANNUAL_COST, KEY_MIN_ANNUAL_COST, NO_MATCH
+from common.constants import KEY_REASON, KEY_DAYS_TO_EXPIRY, KEY_MIN_ANNUAL_COST, NO_MATCH
 
 class DecisionRules:
     def __init__(self, rules: list[dict], priority: list[str]):    
@@ -24,15 +24,21 @@ class DecisionRules:
     def _rule_matches(self, rule: dict, contract: Contract) -> bool:
         """Check if ALL conditions in a rule are satisfied by the contract."""
         
-        if contract.data[KEY_DAYS_TO_EXPIRY] > rule.get(KEY_DAYS_TO_EXPIRY, float('inf')):
-            return False
-        
-        if KEY_MIN_ANNUAL_COST in rule:
-            annual_cost = contract.data.get(KEY_ANNUAL_COST, 0)
-            if annual_cost < rule[KEY_MIN_ANNUAL_COST]:
+        try:
+            if contract.get_days_to_expiry() > rule.get(KEY_DAYS_TO_EXPIRY, float('inf')):
                 return False
+            
+            if KEY_MIN_ANNUAL_COST in rule:
+                annual_cost = contract.get_annual_cost()
+                if annual_cost < rule[KEY_MIN_ANNUAL_COST]:
+                    return False
+            
+            return True
         
-        return True
+        except KeyError:
+            print("Contract doesn't have needed features to evaluate it according to the decision rules")
+            return False
+
 
     def find_top_reason(self, contract: Contract) -> str:
         """Find the first applicable rule based on priority order."""

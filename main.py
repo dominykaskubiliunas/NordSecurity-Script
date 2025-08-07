@@ -1,10 +1,10 @@
-from datetime import datetime
 from src.orchestrator import Orchestrator
-from utils.utils import save_json, empty_file
+from utils.utils import empty_file
+from common.constants import NOTIFICATION_LOG_FILE_PATH, CONFIG_FILE_PATH, CONTRACTS_FILE_PATH
 
 def main():
 
-    orchestrator = Orchestrator(config_input_path="inputs/config.json", contracts_input_path="inputs/contracts.json")
+    orchestrator = Orchestrator(config_input_path=CONFIG_FILE_PATH, contracts_input_path=CONTRACTS_FILE_PATH)
     print("Internal tool for identifying and categorize expiring contracts for renewal.")
 
     while True:
@@ -12,15 +12,13 @@ def main():
         
         match cmd:
             case "s":
-                orchestrator.load_notifications_log()
+                orchestrator.load_notifications()
+                orchestrator.clear_current_notifications()
                 current_date_str = input("Enter the current date in format YYYY-MM-DD: ")
                 try:
                     print(f"Date entered: {current_date_str}")
                     orchestrator.add_current_datetime_str(current_date_str)
-                    orchestrator.load_notifications_log()
-                    notification_dict = orchestrator.check_contracts()
-                    save_json(notification_dict, file_path="inputs/notification_log.json")
-                
+                    orchestrator.check_contracts()
                 except ValueError:
                     print("Invalid date format. Please use YYYY-MM-DD format (e.g., 2025-08-04)")
             case "q":
@@ -28,13 +26,9 @@ def main():
                 break
             case "c":
                 print("Clearing out notification_log.json")
-                empty_file(file_path="inputs/notification_log.json")
+                empty_file(file_path=NOTIFICATION_LOG_FILE_PATH)
             case _:
                 print("Invalid command")
-
-
-
-
 
 if __name__ == "__main__":
     main()

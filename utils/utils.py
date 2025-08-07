@@ -1,5 +1,10 @@
 import json
 import os
+from typing import Dict, Set
+
+def filter_keys(data: Dict, keys_to_exclude: Set) -> Dict:
+    """Returns a new dictionary with specified keys excluded"""
+    return {key: value for key, value in data.items() if key not in keys_to_exclude}
 
 def load_json(file_path: str) -> dict:
     """Load JSON file into a dictionary, return empty dict if file is empty or doesn't exist."""
