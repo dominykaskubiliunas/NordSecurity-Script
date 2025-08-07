@@ -3,7 +3,7 @@ from src.contract import Contract
 
 class Serializer:
     @staticmethod
-    def contract_notification_output(contract: Contract, reason: str) -> dict:
+    def notification_output(contract: Contract, reason: str) -> dict:
         return {
             KEY_SOFTWARE_NAME: contract.data.get(KEY_SOFTWARE_NAME, "Unknown Software Name"),
             KEY_OWNER: contract.data.get(KEY_OWNER, "Unknown Owner"),
@@ -14,7 +14,7 @@ class Serializer:
         }
 
     @staticmethod
-    def contract_log_entry(notified_on: str, reason: str) -> dict:
+    def notification_log_entry(notified_on: str, reason: str) -> dict:
         return {
             KEY_NOTIFIED_ON: notified_on,
             KEY_REASON: reason

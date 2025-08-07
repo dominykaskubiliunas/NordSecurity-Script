@@ -5,11 +5,10 @@ from common.constants import NOTIFICATION_LOG_FILE_PATH, CONFIG_FILE_PATH, CONTR
 def main():
 
     orchestrator = Orchestrator(config_input_path=CONFIG_FILE_PATH, contracts_input_path=CONTRACTS_FILE_PATH)
-    print("Internal tool for identifying and categorize expiring contracts for renewal.")
+    print("Internal tool for expiring contracts renewal.")
 
     while True:
         cmd = input("Enter your command (\"s\" - start, \"q\" - quit or \"c\" - clean notification log): ")
-        
         match cmd:
             case "s":
                 orchestrator.load_notifications()

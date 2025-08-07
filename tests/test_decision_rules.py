@@ -14,7 +14,6 @@ def rules_config():
     }
 
 def test_priority(rules_config):
-    
     rules_config["rules"] = [
         {"reason": "Upcoming", "days_to_expiry": 14},
         {"reason": "Urgent", "days_to_expiry": 3},
@@ -41,8 +40,6 @@ def test_priority(rules_config):
     for i in range(len(rules.priority)):
         if i < len(rules.rules):
             assert rules.priority[i] == rules.rules[i]["reason"]
-
-
 
 def test_rule_match_high_cost(rules_config):
     rules = DecisionRules(rules_config["rules"], rules_config["priority"])

@@ -1,5 +1,5 @@
 """
-Decision Rules class is responsible for managing and applying rules
+Decision Rules class is responsible for managing and applying rules from config.json
 """
 from src.contract import Contract
 from common.constants import KEY_REASON, KEY_DAYS_TO_EXPIRY, KEY_MIN_ANNUAL_COST, NO_MATCH

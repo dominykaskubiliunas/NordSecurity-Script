@@ -4,7 +4,7 @@ Orchestrator class manages the contract notification workflow by coordinating da
 
 from src.decision_rules import DecisionRules
 from src.contract import Contract
-from contract_notification import evaluate_contract
+from src.contract_notification_decision import evaluate_contract
 from src.serializer import Serializer
 from utils.utils import load_json, save_json
 from common.constants import *
@@ -39,8 +39,8 @@ class Orchestrator():
             is_notified, reason = evaluate_contract(contract=current_contract, decision_rules=self.decision_rules, notification_log=self.notifications)
             
             if is_notified:
-                self.notifications[current_contract.get_id_str()] = self.serializer.contract_log_entry(notified_on=self.current_datetime, reason=reason)
-                self.current_notifications.append(self.serializer.contract_notification_output(contract=current_contract, reason=reason))
+                self.notifications[current_contract.get_id_str()] = self.serializer.notification_log_entry(notified_on=self.current_datetime, reason=reason)
+                self.current_notifications.append(self.serializer.notification_output(contract=current_contract, reason=reason))
         
         print(self.current_notifications)
         save_json(self.notifications, file_path=NOTIFICATION_LOG_FILE_PATH)
