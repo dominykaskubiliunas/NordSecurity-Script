@@ -1,8 +1,10 @@
+import os
 
 # File Paths
-CONFIG_FILE_PATH = "inputs/config.json"
-CONTRACTS_FILE_PATH = "inputs/contracts.json"
-NOTIFICATION_LOG_FILE_PATH = "inputs/notification_log.json"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+CONFIG_FILE_PATH = os.path.join(SCRIPT_DIR, "inputs", "config.json")
+CONTRACTS_FILE_PATH = os.path.join(SCRIPT_DIR, "inputs", "contracts.json")
+NOTIFICATION_LOG_FILE_PATH = os.path.join(SCRIPT_DIR, "inputs", "notification_log.json")
 
 # Date Formats
 DATE_FORMAT = "%Y-%m-%d"
