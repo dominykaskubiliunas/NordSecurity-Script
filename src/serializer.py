@@ -5,11 +5,11 @@ class Serializer:
     @staticmethod
     def contract_notification_output(contract: Contract, reason: str) -> dict:
         return {
-            KEY_SOFTWARE_NAME: contract.get_software_name(),
-            KEY_OWNER: contract.get_owner(),
-            KEY_ORGANIZATION: contract.get_organization(),
-            KEY_ANNUAL_COST: contract.get_annual_cost(),
-            KEY_RENEWAL_DATE: contract.get_renewal_date(),
+            KEY_SOFTWARE_NAME: contract.data.get(KEY_SOFTWARE_NAME, "Unknown Software Name"),
+            KEY_OWNER: contract.data.get(KEY_OWNER, "Unknown Owner"),
+            KEY_ORGANIZATION: contract.data.get(KEY_ORGANIZATION, "Unknown Organization"),
+            KEY_ANNUAL_COST: contract.data.get(KEY_ANNUAL_COST, "Unknown Annual Cost"),
+            KEY_RENEWAL_DATE: contract.data.get(KEY_RENEWAL_DATE, "Unknown Annual Cost"),
             KEY_REASON: reason
         }
 
